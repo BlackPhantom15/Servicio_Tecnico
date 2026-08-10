@@ -253,7 +253,7 @@ button{font-family:inherit;}
 .modal{
   width:100%; max-width:460px; border-radius:26px; padding:34px 30px;
   position:relative; transform:translateY(20px) scale(.97); transition:transform .3s ease;
-  max-height:86vh; overflow-y:auto;
+  max-height:86vh; overflow-y:auto; overflow-x:hidden;
 }
 .modal-overlay.active .modal{transform:translateY(0) scale(1);}
 .modal-close{
@@ -300,7 +300,7 @@ button{font-family:inherit;}
   padding:12px 14px; border-radius:12px; background:var(--glass-bg); border:1px solid var(--glass-border);
 }
 .summary-item b{display:block; font-size:11.5px; letter-spacing:1.5px; color:var(--accent-a); text-transform:uppercase; margin-bottom:4px; font-family:'JetBrains Mono', monospace;}
-.summary-item span{font-size:14.5px;}
+.summary-item span{font-size:14.5px; display:block; overflow-wrap:anywhere; word-break:break-word;}
 
 .modal-nav{display:flex; gap:12px; margin-top:26px;}
 .modal-nav .btn{flex:1;}
