@@ -5,6 +5,8 @@ const WHATSAPP_NUMBER = "5492645271715"; // Tu número con código de país, sin
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // ============================================================
 // TEMA OSCURO / CLARO
 // ============================================================
@@ -27,29 +29,92 @@ themeToggle.addEventListener("click", () => {
 });
 
 // ============================================================
-// MENÚ MÓVIL (hamburguesa)
+// MENÚ MÓVIL (hamburguesa con morph a X + overlay fullscreen)
 // ============================================================
 const hamburger = document.getElementById("hamburger");
 const navLinksEl = document.getElementById("navLinks");
-hamburger?.addEventListener("click", () => navLinksEl.classList.toggle("open"));
+
+function toggleMenu(force){
+  const open = typeof force === "boolean" ? force : !navLinksEl.classList.contains("open");
+  navLinksEl.classList.toggle("open", open);
+  hamburger.classList.toggle("open", open);
+  hamburger.setAttribute("aria-expanded", String(open));
+  document.body.style.overflow = open ? "hidden" : "";
+}
+hamburger?.addEventListener("click", () => toggleMenu());
 navLinksEl?.querySelectorAll("a").forEach(a => {
-  a.addEventListener("click", () => navLinksEl.classList.remove("open"));
+  a.addEventListener("click", () => toggleMenu(false));
 });
 
 // ============================================================
-// WHATSAPP DIRECTO 
+// WHATSAPP DIRECTO Y FLOTANTE
 // ============================================================
 const directMsg = "Hola! Quiero consultar por sus servicios técnicos.";
-document.getElementById("directWhatsapp").href =
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(directMsg)}`;
+const directWaUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(directMsg)}`;
+document.getElementById("directWhatsapp").href = directWaUrl;
+
+const floatWa = document.getElementById("floatWhatsapp");
+floatWa.href = directWaUrl;
+
+const heroSection = document.getElementById("inicio");
+if ("IntersectionObserver" in window && heroSection){
+  const waObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      floatWa.classList.toggle("visible", !entry.isIntersecting);
+    });
+  }, { threshold: 0.1 });
+  waObserver.observe(heroSection);
+} else {
+  floatWa.classList.add("visible");
+}
 
 // ============================================================
-// FONDO ANIMADO 
+// SCROLL REVEAL (IntersectionObserver, transform + opacity)
+// ============================================================
+const revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window){
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add("in-view");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+  revealEls.forEach(el => revealObserver.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add("in-view"));
+}
+
+// ============================================================
+// PARALLAX SUTIL DEL LOGO EN EL HERO (solo puntero fino)
+// ============================================================
+const orbitFrame = document.getElementById("orbitFrame");
+const orbitLogo = document.getElementById("orbitLogo");
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+if (orbitFrame && orbitLogo && finePointer && !reduceMotion){
+  let rafId = null;
+  orbitFrame.addEventListener("mousemove", (e) => {
+    const rect = orbitFrame.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      orbitLogo.style.transform = `rotateX(${(-y * 10).toFixed(2)}deg) rotateY(${(x * 10).toFixed(2)}deg)`;
+    });
+  });
+  orbitFrame.addEventListener("mouseleave", () => {
+    orbitLogo.style.transform = "";
+  });
+}
+
+// ============================================================
+// FONDO ANIMADO — RED DE PARTÍCULAS
 // ============================================================
 const canvas = document.getElementById("netCanvas");
 const ctx = canvas.getContext("2d");
 let particles = [];
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function resizeCanvas(){
   canvas.width = window.innerWidth;
@@ -60,13 +125,13 @@ function initParticles(){
   particles = Array.from({ length: count }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.35,
-    vy: (Math.random() - 0.5) * 0.35,
+    vx: (Math.random() - 0.5) * 0.32,
+    vy: (Math.random() - 0.5) * 0.32,
   }));
 }
 function getAccentRGB(){
   const isLight = root.getAttribute("data-theme") === "light";
-  return isLight ? "10,150,145" : "45,212,191";
+  return isLight ? "15,168,93" : "56,226,124";
 }
 function drawNetwork(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -85,7 +150,7 @@ function drawNetwork(){
       const dx = a.x - b.x, dy = a.y - b.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < maxDist){
-        ctx.strokeStyle = `rgba(${rgb},${0.14 * (1 - dist / maxDist)})`;
+        ctx.strokeStyle = `rgba(${rgb},${0.13 * (1 - dist / maxDist)})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
@@ -95,9 +160,9 @@ function drawNetwork(){
     }
   }
   particles.forEach(p => {
-    ctx.fillStyle = `rgba(${rgb},0.55)`;
+    ctx.fillStyle = `rgba(${rgb},0.5)`;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 1.7, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
     ctx.fill();
   });
 
@@ -117,7 +182,7 @@ const wizardConfig = {
     icon: "🖥️",
     steps: [
       {
-        key: "servicio", type: "select", title: "¿Qué servicio necesitás?",
+        key: "servicio", type: "select", title: "¿Qué servicio necesitás?", required: true,
         options: [
           "Mantenimiento preventivo",
           "Mantenimiento correctivo",
@@ -127,7 +192,7 @@ const wizardConfig = {
         ],
       },
       {
-        key: "modalidad", type: "select", title: "¿Cómo preferís el servicio?",
+        key: "modalidad", type: "select", title: "¿Cómo preferís el servicio?", required: true,
         options: ["Presencial", "Online"],
       },
       { key: "nombre", type: "text", title: "¿Cuál es tu nombre?", placeholder: "Nombre completo", required: true },
@@ -140,7 +205,7 @@ const wizardConfig = {
     icon: "📱",
     steps: [
       {
-        key: "servicio", type: "select", title: "¿Qué servicio necesitás?",
+        key: "servicio", type: "select", title: "¿Qué servicio necesitás?", required: true,
         options: [
           "Optimización de rendimiento",
           "Eliminación de virus o malware",
@@ -161,7 +226,7 @@ const wizardConfig = {
     icon: "💻",
     steps: [
       {
-        key: "servicio", type: "select", title: "¿Qué tipo de proyecto necesitás?",
+        key: "servicio", type: "select", title: "¿Qué tipo de proyecto necesitás?", required: true,
         options: [
           "Landing page",
           "Página para negocio o emprendimiento",
@@ -185,6 +250,7 @@ const progressDots = document.getElementById("progressDots");
 const stepContainer = document.getElementById("stepContainer");
 const btnBack = document.getElementById("btnBack");
 const btnNext = document.getElementById("btnNext");
+const btnNextLabel = document.getElementById("btnNextLabel");
 
 let activeCategory = null;
 let activeSteps = [];
@@ -234,15 +300,15 @@ function renderStep(){
 
   if (isSummary){
     renderSummaryStep();
-    btnNext.textContent = "Enviar por WhatsApp";
+    btnNextLabel.textContent = "Enviar por WhatsApp";
     btnNext.disabled = false;
     return;
   }
 
   const step = activeSteps[currentStepIndex];
-  btnNext.textContent = "Siguiente";
+  btnNextLabel.textContent = "Siguiente";
 
-  let html = `<div class="step"><h3>${step.title}</h3>`;
+  let html = `<div class="step step-anim"><h3>${step.title}</h3>`;
 
   if (step.type === "select"){
     html += `<div class="option-list">`;
@@ -295,7 +361,7 @@ function validateStep(){
 
 function renderSummaryStep(){
   const step = activeSteps;
-  let html = `<div class="step"><h3>Revisá tu solicitud</h3><div class="summary-list">`;
+  let html = `<div class="step step-anim"><h3>Revisá tu solicitud</h3><div class="summary-list">`;
   html += `<div class="summary-item"><b>Servicio</b><span>${wizardConfig[activeCategory].label}</span></div>`;
   step.forEach(s => {
     const val = answers[s.key];
@@ -322,13 +388,8 @@ btnNext.addEventListener("click", () => {
     return;
   }
 
-  if (currentStepIndex < activeSteps.length - 1){
-    currentStepIndex++;
-    renderStep();
-  } else {
-    currentStepIndex++; 
-    renderStep();
-  }
+  currentStepIndex++;
+  renderStep();
 });
 
 function sendToWhatsapp(){

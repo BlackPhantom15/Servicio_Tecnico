@@ -3,38 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Servicio Técnico — BlackPhantom</title>
+<title>Black Phantom Tech — Servicio Técnico en San Juan</title>
+<meta name="description" content="Reparación y mantenimiento de PC, soluciones de software para celulares y desarrollo web a medida. Atención directa, presupuesto claro, en San Juan, Argentina.">
+<meta name="theme-color" content="#060907">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="ico/logo.ico">
 </head>
 <body>
 
-<canvas id="netCanvas"></canvas>
-<div class="glow glow-a"></div>
-<div class="glow glow-b"></div>
+<!-- ============ FX DE FONDO ============ -->
+<div class="noise" aria-hidden="true"></div>
+<canvas id="netCanvas" aria-hidden="true"></canvas>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="glow glow-a" aria-hidden="true"></div>
+<div class="glow glow-b" aria-hidden="true"></div>
 
 <!-- ============ NAV ============ -->
 <header class="nav">
-  <div class="nav-inner glass">
+  <div class="nav-inner nav-glass">
     <a href="#inicio" class="logo">
       <img src="img/logo.png" alt="Black Phantom Tech" class="logo-mark">
       <span class="logo-text">BLACK PHANTOM<span class="logo-accent">TECH</span></span>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#contacto">Contacto</a>
+    </a>    <nav class="nav-links" id="navLinks">
+      <a href="#inicio"><span class="nav-idx">00</span>Inicio</a>
+      <a href="#servicios"><span class="nav-idx">01</span>Servicios</a>
+      <a href="#proceso"><span class="nav-idx">02</span>Cómo trabajo</a>
+      <a href="#contacto"><span class="nav-idx">03</span>Contacto</a>
+      <a href="#contacto" class="nav-links-cta">Escribime por WhatsApp</a>
     </nav>
     <div class="nav-right">
       <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema">
         <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
         <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
       </button>
-      <a href="#contacto" class="nav-cta">WhatsApp</a>
-      <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+      <a href="#contacto" class="nav-cta">
+        <span>WhatsApp</span>
+        <span class="nav-cta-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -43,87 +54,258 @@
 
 <!-- ============ HERO ============ -->
 <section id="inicio" class="hero">
-  <div class="hero-content">
-    <span class="eyebrow">SOPORTE TÉCNICO</span>
-    <h1>Tecnología que<br><span class="grad-text">funciona</span>, sin vueltas.</h1>
-    <p>Reparación y mantenimiento de PC, soluciones de software para celulares, y páginas web a medida. Todo en un solo lugar.</p>
-    <div class="hero-btns">
-      <a href="#servicios" class="btn btn-primary">Ver servicios</a>
-      <a href="#contacto" class="btn btn-glass">Contactar</a>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <span class="eyebrow reveal"><i class="dot"></i>SERVICIO TÉCNICO · SAN JUAN, ARG.</span>
+      <h1 class="reveal" style="--d:60ms">Tecnología que<br><span class="grad-text">funciona de verdad</span>,<br>sin vueltas.</h1>
+      <p class="reveal" style="--d:120ms">Reparación y mantenimiento de PC, soluciones de software para celulares, y páginas web a medida. Sin intermediarios, sin tecnicismos: te explico todo en criollo y arreglamos entre los dos.</p>
+      <div class="hero-btns reveal" style="--d:180ms">
+        <a href="#servicios" class="btn btn-primary">
+          <span>Ver servicios</span>
+          <span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a href="#contacto" class="btn btn-glass">
+          <span>Hablar por WhatsApp</span>
+        </a>
+      </div>
+      <div class="hero-features reveal" style="--d:240ms">
+        <div class="hf-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Presupuesto claro, sin sorpresas</div>
+        <div class="hf-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Presencial u online</div>
+        <div class="hf-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Trato directo, cero vueltas</div>
+      </div>
     </div>
+
+    <div class="hero-visual reveal" style="--d:200ms">
+      <div class="orbit-frame" id="orbitFrame">
+        <div class="orbit-ring ring-1"></div>
+        <div class="orbit-ring ring-2"></div>
+        <div class="orbit-scan"></div>
+        <img src="img/logo-hires.png" alt="Fantasma Black Phantom Tech" class="orbit-logo" id="orbitLogo">
+        <span class="orbit-chip chip-1"><i></i>PC</span>
+        <span class="orbit-chip chip-2"><i></i>MÓVIL</span>
+        <span class="orbit-chip chip-3"><i></i>WEB</span>
+      </div>
+      <div class="terminal-readout">
+        <span class="tr-dot"></span>
+        <span>system.status <b>&gt; operativo</b><span class="cursor-blink">_</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue reveal" style="--d:320ms" aria-hidden="true">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>REPARACIÓN DE PC</span><span class="tk-sep">◆</span>
+    <span>OPTIMIZACIÓN DE CELULARES</span><span class="tk-sep">◆</span>
+    <span>DESARROLLO WEB A MEDIDA</span><span class="tk-sep">◆</span>
+    <span>MANTENIMIENTO PREVENTIVO</span><span class="tk-sep">◆</span>
+    <span>SOPORTE PRESENCIAL Y ONLINE</span><span class="tk-sep">◆</span>
+    <span>REPARACIÓN DE PC</span><span class="tk-sep">◆</span>
+    <span>OPTIMIZACIÓN DE CELULARES</span><span class="tk-sep">◆</span>
+    <span>DESARROLLO WEB A MEDIDA</span><span class="tk-sep">◆</span>
+    <span>MANTENIMIENTO PREVENTIVO</span><span class="tk-sep">◆</span>
+    <span>SOPORTE PRESENCIAL Y ONLINE</span><span class="tk-sep">◆</span>
+  </div>
+</div>
+
 <!-- ============ SERVICIOS ============ -->
 <section id="servicios" class="services">
-  <div class="section-head">
-    <span class="tag">Elegí tu servicio</span>
+  <div class="section-head reveal">
+    <span class="tag">01 · Elegí tu servicio</span>
     <h2>¿Qué necesitás resolver hoy?</h2>
+    <p class="section-sub">Tocá una tarjeta, contame los detalles en un par de pasos, y el pedido te llega listo para enviar por WhatsApp.</p>
   </div>
 
   <div class="cards-grid">
 
-    <article class="card glass" data-category="pc">
-      <div class="card-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="7" y="8" width="34" height="22" rx="2.5"/>
-          <path d="M17 36h14M24 30v6"/>
-          <path d="M14 15h20M14 20h12"/>
-        </svg>
+    <article class="card glass reveal" data-category="pc" style="--d:0ms">
+      <div class="card-glow"></div>
+      <div class="card-top">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="7" y="8" width="34" height="22" rx="2.5"/>
+            <path d="M17 36h14M24 30v6"/>
+            <path d="M14 15h20M14 20h12"/>
+          </svg>
+        </div>
+        <span class="card-index">01</span>
       </div>
       <h3>Computadoras</h3>
-      <p>Mantenimiento preventivo y correctivo, limpieza, pasta térmica, optimización y configuración.</p>
-      <button class="card-btn">Comenzar <span>→</span></button>
+      <p>Mantenimiento preventivo y correctivo, limpieza interna, pasta térmica, optimización y configuración.</p>
+      <ul class="card-tags">
+        <li>Limpieza profunda</li>
+        <li>Pasta térmica</li>
+        <li>Optimización</li>
+      </ul>
+      <button class="card-btn">Comenzar <span class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
     </article>
 
-    <article class="card glass" data-category="celular">
-      <div class="card-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="15" y="6" width="18" height="36" rx="3.5"/>
-          <path d="M21 37h6" stroke-linecap="round"/>
-          <path d="M20 14h8v10h-8z"/>
-        </svg>
+    <article class="card glass card-featured reveal" data-category="celular" style="--d:80ms">
+      <div class="card-glow"></div>
+      <div class="card-top">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="15" y="6" width="18" height="36" rx="3.5"/>
+            <path d="M21 37h6" stroke-linecap="round"/>
+            <path d="M20 14h8v10h-8z"/>
+          </svg>
+        </div>
+        <span class="card-index">02</span>
       </div>
       <h3>Celulares</h3>
       <p>Optimización, errores de software, virus, restauración de fábrica y desbloqueo de acceso.</p>
-      <button class="card-btn">Comenzar <span>→</span></button>
+      <ul class="card-tags">
+        <li>Anti-virus / malware</li>
+        <li>Recuperación de datos</li>
+        <li>Desbloqueo de acceso</li>
+      </ul>
+      <button class="card-btn">Comenzar <span class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
     </article>
 
-    <article class="card glass" data-category="web">
-      <div class="card-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="6" y="10" width="36" height="26" rx="3"/>
-          <path d="M6 17h36" stroke-linecap="round"/>
-          <circle cx="11" cy="13.5" r="1" fill="currentColor" stroke="none"/>
-          <circle cx="15" cy="13.5" r="1" fill="currentColor" stroke="none"/>
-          <path d="M14 24l4 4-4 4M24 32h8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <article class="card glass reveal" data-category="web" style="--d:160ms">
+      <div class="card-glow"></div>
+      <div class="card-top">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="6" y="10" width="36" height="26" rx="3"/>
+            <path d="M6 17h36" stroke-linecap="round"/>
+            <circle cx="11" cy="13.5" r="1" fill="currentColor" stroke="none"/>
+            <circle cx="15" cy="13.5" r="1" fill="currentColor" stroke="none"/>
+            <path d="M14 24l4 4-4 4M24 32h8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="card-index">03</span>
       </div>
       <h3>Web a medida</h3>
       <p>Landing pages, sitios para tu negocio, sistemas de turnos y mantenimiento web.</p>
-      <button class="card-btn">Comenzar <span>→</span></button>
+      <ul class="card-tags">
+        <li>Landing pages</li>
+        <li>Sistemas de turnos</li>
+        <li>Mantenimiento web</li>
+      </ul>
+      <button class="card-btn">Comenzar <span class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
     </article>
 
+  </div>
+</section>
+
+<!-- ============ PROCESO ============ -->
+<section id="proceso" class="process">
+  <div class="section-head reveal">
+    <span class="tag">02 · Cómo trabajo</span>
+    <h2>De tu problema a la solución, en 4 pasos</h2>
+  </div>
+
+  <div class="process-grid">
+    <div class="process-line" aria-hidden="true"></div>
+
+    <div class="step reveal" style="--d:0ms">
+      <span class="step-num">01</span>
+      <h4>Me contás qué pasa</h4>
+      <p>Por WhatsApp me explicás el problema o lo que necesitás, sin formularios eternos.</p>
+    </div>
+    <div class="step reveal" style="--d:80ms">
+      <span class="step-num">02</span>
+      <h4>Diagnóstico</h4>
+      <p>Reviso el caso —presencial u online— y te digo exactamente qué tiene y qué hace falta.</p>
+    </div>
+    <div class="step reveal" style="--d:160ms">
+      <span class="step-num">03</span>
+      <h4>Presupuesto claro</h4>
+      <p>Te paso un valor cerrado antes de arrancar. Sin costos ocultos ni sorpresas después.</p>
+    </div>
+    <div class="step reveal" style="--d:240ms">
+      <span class="step-num">04</span>
+      <h4>Solución y entrega</h4>
+      <p>Trabajo, te aviso el avance y entrego todo probado y funcionando.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUÉ ELEGIRME ============ -->
+<section class="why">
+  <div class="why-inner glass reveal">
+    <div class="why-text">
+      <span class="tag">03 · Por qué elegirme</span>
+      <h2>Menos vueltas, más soluciones</h2>
+      <p class="section-sub">Trabajo solo, así que hablás siempre conmigo: el mismo que diagnostica, repara y entrega.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5Z"/></svg></div>
+        <h4>Trato directo</h4>
+        <p>Sin call centers ni intermediarios. Hablás con quien hace el trabajo.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h4>Presencial u online</h4>
+        <p>En San Juan trabajo presencial, y para software puedo resolver todo a distancia.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M4 15h10M4 11h16M4 7h10"/></svg></div>
+        <h4>Se explica en criollo</h4>
+        <p>Te cuento qué tenía tu equipo y qué se hizo, sin tecnicismos innecesarios.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+        <h4>Enfoque a medida</h4>
+        <p>Cada equipo o proyecto se resuelve distinto — nada de soluciones genéricas.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============ CONTACTO ============ -->
 <section id="contacto" class="contact">
-  <div class="contact-inner glass">
+  <div class="contact-inner glass reveal">
+    <div class="contact-glow" aria-hidden="true"></div>
+    <span class="tag">04 · Contacto</span>
     <h2>¿Preferís escribir directo?</h2>
-    <p>También podés mandarme un mensaje sin pasar por el formulario.</p>
-    <a class="btn btn-primary btn-lg" id="directWhatsapp" href="#" target="_blank" rel="noopener">Escribime por WhatsApp</a>
+    <p>También podés mandarme un mensaje sin pasar por el formulario y lo vemos por WhatsApp.</p>
+    <a class="btn btn-primary btn-lg" id="directWhatsapp" href="#" target="_blank" rel="noopener">
+      <span>Escribime por WhatsApp</span>
+      <span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <div class="contact-meta">
+      <div class="cm-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>San Juan, Argentina</div>
+      <div class="cm-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Respuesta por WhatsApp</div>
+    </div>
   </div>
 </section>
 
 <footer class="footer">
-  <p>© <span id="year"></span> Black Phantom Tech · Servicio Técnico</p>
+  <div class="footer-inner">
+    <a href="#inicio" class="footer-logo">
+      <img src="img/logo.png" alt="Black Phantom Tech">
+      <span>BLACK PHANTOM<span class="logo-accent">TECH</span></span>
+    </a>
+    <nav class="footer-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proceso">Cómo trabajo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <p class="footer-copy">© <span id="year"></span> Black Phantom Tech · Servicio Técnico</p>
+  </div>
 </footer>
+
+<!-- ============ WHATSAPP FLOTANTE ============ -->
+<a href="#" id="floatWhatsapp" class="float-wa" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.02 3C9.4 3 4.02 8.38 4.02 15c0 2.28.63 4.42 1.72 6.25L4 29l7.94-1.66A11.9 11.9 0 0 0 16.02 27C22.64 27 28 21.62 28 15S22.64 3 16.02 3Zm0 2.2c5.4 0 9.78 4.38 9.78 9.8 0 5.4-4.38 9.78-9.78 9.78a9.7 9.7 0 0 1-4.96-1.36l-.36-.21-4.06.85.86-3.96-.23-.38a9.72 9.72 0 0 1-1.5-5.22c0-5.42 4.36-9.8 9.75-9.8Zm-4.7 5.35c-.2 0-.5.07-.77.37s-1.02 1-1.02 2.4 1.05 2.78 1.2 2.97c.15.2 2.05 3.2 5.04 4.35 2.5.97 2.88.78 3.4.73.52-.05 1.68-.68 1.92-1.35.24-.66.24-1.22.17-1.34-.07-.12-.27-.2-.56-.35-.3-.15-1.68-.83-1.94-.93-.26-.1-.45-.15-.64.15-.2.3-.74.93-.9 1.12-.17.2-.33.22-.62.07-.3-.15-1.24-.46-2.37-1.47-.87-.78-1.47-1.74-1.64-2.04-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.63-1.57-.88-2.14-.22-.53-.46-.48-.64-.49-.16-.01-.35-.01-.55-.01Z"/></svg>
+</a>
 
 <!-- ============ MODAL WIZARD ============ -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal glass" role="dialog" aria-modal="true">
-    <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
 
     <div class="modal-head">
       <span class="modal-tag" id="modalTag">Servicio</span>
@@ -134,7 +316,7 @@
 
     <div class="modal-nav">
       <button class="btn btn-glass" id="btnBack" type="button">Atrás</button>
-      <button class="btn btn-primary" id="btnNext" type="button">Siguiente</button>
+      <button class="btn btn-primary" id="btnNext" type="button"><span id="btnNextLabel">Siguiente</span></button>
     </div>
   </div>
 </div>
