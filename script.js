@@ -247,7 +247,7 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
   const clamp  = (v, a, b) => Math.min(Math.max(v, a), b);
   const smooth = (t) => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 
-  let W, H, c0x, c0y, sw, sh, z1, k0, shX, shY, travel;
+  let W, H, c0x, c0y, sw, sh, z1, k0, shX, shY, travel, bgQ = 1, bgOx = 0, bgOy = 0;
 
   function layout(){
     W = stage.clientWidth; H = stage.clientHeight;
@@ -260,9 +260,13 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
     c0x = ox + SCR.cx * s; c0y = oy + SCR.cy * s;
     sw = SCR.w * s;        sh = SCR.h * s;
 
+    // En celulares la foto se dibuja a la mitad de tamaño y se agranda con transform:
+    // la textura en GPU pesa 4 veces menos (evita cuelgues en equipos modestos).
+    bgQ = Math.min(W, H) < 700 ? 0.5 : 1;
+    bgOx = ox; bgOy = oy;
     Object.assign(bg.style, {
-      left: ox + "px", top: oy + "px", width: iw + "px", height: ih + "px",
-      transformOrigin: `${SCR.cx * s}px ${SCR.cy * s}px`,
+      left: "0px", top: "0px", width: (iw * bgQ) + "px", height: (ih * bgQ) + "px",
+      transformOrigin: "0 0",
     });
     Object.assign(screen.style, {
       left: (c0x - sw / 2) + "px", top: (c0y - sh / 2) + "px",
@@ -276,6 +280,23 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
     k0 = W >= H ? Math.min(sw / W, sh / H) : Math.max(sw / W, sh / H); // escala inicial de la web dentro de la pantalla
     shX = W / 2 - c0x; shY = H / 2 - c0y;                       // la pantalla viaja al centro
     travel = Math.max(1, section.offsetHeight - stage.offsetHeight);
+    fitHero();
+  }
+
+  // Si por alto de pantalla o fuentes el contenido del hero no entra, se achica lo justo (mínimo 68%)
+  function fitHero(){
+    const hero = page.querySelector(".hero");
+    const inner = page.querySelector(".hero-inner");
+    if (!hero || !inner) return;
+    inner.style.transform = ""; inner.style.transformOrigin = "";
+    const cs = getComputedStyle(hero);
+    const avail = H - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const nat = inner.offsetHeight;
+    if (nat > avail && avail > 0){
+      const k = Math.max(0.68, avail / nat);
+      inner.style.transformOrigin = "top center";
+      inner.style.transform = `scale(${k.toFixed(3)})`;
+    }
   }
 
   function progress(){
@@ -289,7 +310,7 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
     const z = Math.pow(z1, e);
     const t = `translate3d(${(shX * e).toFixed(2)}px,${(shY * e).toFixed(2)}px,0) scale(${z.toFixed(4)})`;
 
-    bg.style.transform = t;
+    bg.style.transform = `translate3d(${(c0x + shX * e - z * c0x + z * bgOx).toFixed(2)}px,${(c0y + shY * e - z * c0y + z * bgOy).toFixed(2)}px,0) scale(${(z / bgQ).toFixed(4)})`;
     const bgOp = 1 - smooth((p - 0.86) / 0.09);
     bg.style.opacity = bgOp.toFixed(3);
     bg.style.visibility = bgOp <= 0 ? "hidden" : "visible";
@@ -346,6 +367,8 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
 
   function relayout(){ layout(); render(); }
   layout(); render();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  window.addEventListener("load", relayout);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", relayout);
   if ("ResizeObserver" in window) new ResizeObserver(relayout).observe(stage);
