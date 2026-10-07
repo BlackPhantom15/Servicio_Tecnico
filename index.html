@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es-AR" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Black Phantom Tech — Servicio Técnico en San Juan</title>
-<meta name="description" content="Reparación y mantenimiento de PC, soluciones de software para celulares y desarrollo web a medida. Atención directa, presupuesto claro, en San Juan, Argentina.">
+<meta name="description" content="Reparación y mantenimiento de PC, soluciones de software para celulares, consolas PS4/PS5, desarrollo web a medida y asesoramiento en compras. Atención directa, presupuesto claro, en San Juan, Argentina.">
 <meta name="theme-color" content="#060907">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Black Phantom Tech — Servicio Técnico en San Juan">
+<meta property="og:description" content="Reparación y mantenimiento de PC, soluciones de software para celulares, consolas PS4/PS5 y desarrollo web a medida.">
+<script>if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sx-on");</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
+<link rel="preload" as="image" href="img/pc-hero.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -22,24 +29,24 @@
 <div class="glow glow-b" aria-hidden="true"></div>
 
 <!-- ============ NAV ============ -->
-<header class="nav">
+<header class="nav nav-hidden" id="nav">
   <div class="nav-inner nav-glass">
     <a href="#inicio" class="logo">
-      <img src="img/logo.png" alt="Black Phantom Tech" class="logo-mark">
+      <img src="img/logo.webp" alt="Black Phantom Tech" class="logo-mark">
       <span class="logo-text">BLACK PHANTOM<span class="logo-accent">TECH</span></span>
     </a>    <nav class="nav-links" id="navLinks">
       <a href="#inicio"><span class="nav-idx">00</span>Inicio</a>
       <a href="#servicios"><span class="nav-idx">01</span>Servicios</a>
       <a href="#proceso"><span class="nav-idx">02</span>Cómo trabajo</a>
       <a href="#contacto"><span class="nav-idx">03</span>Contacto</a>
-      <a href="#contacto" class="nav-links-cta">Escribime por WhatsApp</a>
+      <a href="#contacto" class="nav-links-cta js-wa">Escribime por WhatsApp</a>
     </nav>
     <div class="nav-right">
       <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema">
         <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
         <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
       </button>
-      <a href="#contacto" class="nav-cta">
+      <a href="#contacto" class="nav-cta js-wa">
         <span>WhatsApp</span>
         <span class="nav-cta-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
@@ -52,19 +59,33 @@
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<section id="inicio" class="hero">
+<!-- ============ INTRO SCROLL-EXPANSION + HERO ============ -->
+<section id="inicio" class="sx" aria-label="Inicio">
+  <div class="sx-stage" id="sxStage">
+    <img class="sx-bg" id="sxBg" src="img/pc-hero.webp" width="3344" height="1882" fetchpriority="high"
+         alt="PC gamer de Black Phantom Tech con refrigeración líquida e iluminación RGB">
+
+    <div class="sx-screen" id="sxScreen">
+      <div class="sx-boot" id="sxBoot" aria-hidden="true">
+        <video class="alpha-logo sx-boot-logo" id="sxBootLogo" autoplay muted loop playsinline preload="auto" poster="img/logo-static.webp"
+               disablepictureinpicture width="640" height="640">
+          <source src="img/logo-anim.webm" type="video/webm">
+        </video>
+        <span class="sx-boot-text">BLACK PHANTOM<b>TECH</b></span>
+      </div>
+      <div class="sx-page" id="sxPage">
+<section class="hero">
   <div class="hero-inner">
     <div class="hero-content">
       <span class="eyebrow reveal"><i class="dot"></i>SERVICIO TÉCNICO · SAN JUAN, ARG.</span>
       <h1 class="reveal" style="--d:60ms">Tecnología que<br><span class="grad-text">funciona de verdad</span>,<br>sin vueltas.</h1>
-      <p class="reveal" style="--d:120ms">Reparación y mantenimiento de PC, soluciones de software para celulares, y páginas web a medida. Sin intermediarios, sin tecnicismos: te explico todo en criollo y arreglamos entre los dos.</p>
+      <p class="reveal" style="--d:120ms">Reparación y mantenimiento de PC, soluciones de software para celulares, páginas web a medida y asesoramiento antes de comprar. Sin intermediarios, sin tecnicismos: te explico todo en criollo y arreglamos entre los dos.</p>
       <div class="hero-btns reveal" style="--d:180ms">
         <a href="#servicios" class="btn btn-primary">
           <span>Ver servicios</span>
           <span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a href="#contacto" class="btn btn-glass">
+        <a href="#contacto" class="btn btn-glass js-wa">
           <span>Hablar por WhatsApp</span>
         </a>
       </div>
@@ -80,10 +101,15 @@
         <div class="orbit-ring ring-1"></div>
         <div class="orbit-ring ring-2"></div>
         <div class="orbit-scan"></div>
-        <img src="img/logo-hires.png" alt="Fantasma Black Phantom Tech" class="orbit-logo" id="orbitLogo">
+        <video class="alpha-logo orbit-logo" id="orbitLogo" autoplay muted loop playsinline preload="auto"
+               disablepictureinpicture poster="img/logo-static.webp" width="640" height="640"
+               aria-label="Logo animado de Black Phantom Tech">
+          <source src="img/logo-anim.webm" type="video/webm">
+        </video>
         <span class="orbit-chip chip-1"><i></i>PC</span>
         <span class="orbit-chip chip-2"><i></i>MÓVIL</span>
         <span class="orbit-chip chip-3"><i></i>WEB</span>
+        <span class="orbit-chip chip-4"><i></i>CONSOLAS</span>
       </div>
       <div class="terminal-readout">
         <span class="tr-dot"></span>
@@ -98,17 +124,33 @@
   </div>
 </section>
 
+      </div>
+    </div>
+
+    <div class="sx-hint" id="sxHint" aria-hidden="true">
+      <span class="sx-hint-side sx-hint-l">SERVICIO TÉCNICO</span>
+      <span class="sx-hint-c">Deslizá para entrar<i></i></span>
+      <span class="sx-hint-side sx-hint-r">SAN JUAN · ARG</span>
+    </div>
+    <button type="button" class="sx-skip" id="sxSkip">Saltar intro</button>
+  </div>
+</section>
+
 <!-- ============ TICKER ============ -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
     <span>REPARACIÓN DE PC</span><span class="tk-sep">◆</span>
     <span>OPTIMIZACIÓN DE CELULARES</span><span class="tk-sep">◆</span>
     <span>DESARROLLO WEB A MEDIDA</span><span class="tk-sep">◆</span>
+    <span>CONSOLAS PS4 / PS5</span><span class="tk-sep">◆</span>
+    <span>ASESORAMIENTO EN COMPRAS</span><span class="tk-sep">◆</span>
     <span>MANTENIMIENTO PREVENTIVO</span><span class="tk-sep">◆</span>
     <span>SOPORTE PRESENCIAL Y ONLINE</span><span class="tk-sep">◆</span>
     <span>REPARACIÓN DE PC</span><span class="tk-sep">◆</span>
     <span>OPTIMIZACIÓN DE CELULARES</span><span class="tk-sep">◆</span>
     <span>DESARROLLO WEB A MEDIDA</span><span class="tk-sep">◆</span>
+    <span>CONSOLAS PS4 / PS5</span><span class="tk-sep">◆</span>
+    <span>ASESORAMIENTO EN COMPRAS</span><span class="tk-sep">◆</span>
     <span>MANTENIMIENTO PREVENTIVO</span><span class="tk-sep">◆</span>
     <span>SOPORTE PRESENCIAL Y ONLINE</span><span class="tk-sep">◆</span>
   </div>
@@ -192,6 +234,28 @@
       <button class="card-btn">Comenzar <span class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
     </article>
 
+    <article class="card glass reveal" data-category="consolas" style="--d:240ms">
+      <div class="card-glow"></div>
+      <div class="card-top">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 16h22a8 8 0 0 1 7.8 6.3l2 9.4a5 5 0 0 1-8.6 4.4L33 32H15l-3.2 4.1a5 5 0 0 1-8.6-4.4l2-9.4A8 8 0 0 1 13 16Z"/>
+            <path d="M15 21v6M12 24h6"/>
+            <circle cx="31" cy="22.5" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="35" cy="26" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <span class="card-index">04</span>
+      </div>
+      <h3>Consolas PS4 y PS5</h3>
+      <p>Mantenimiento y liberación de consolas PlayStation, instalación de juegos y asesoramiento de compra.</p>
+      <ul class="card-tags">
+        <li>Mantenimiento</li>
+        <li>Liberación</li>
+        <li>Instalación de juegos</li>
+      </ul>
+      <button class="card-btn">Comenzar <span class="btn-icon sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+    </article>
   </div>
 </section>
 
@@ -254,8 +318,8 @@
       </div>
       <div class="why-item">
         <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
-        <h4>Enfoque a medida</h4>
-        <p>Cada equipo o proyecto se resuelve distinto — nada de soluciones genéricas.</p>
+        <h4>Te asesoro antes de comprar</h4>
+        <p>PC, celular, consola o web: te digo qué conviene según tu uso y tu presupuesto, antes de que gastes.</p>
       </div>
     </div>
   </div>
@@ -282,7 +346,7 @@
 <footer class="footer">
   <div class="footer-inner">
     <a href="#inicio" class="footer-logo">
-      <img src="img/logo.png" alt="Black Phantom Tech">
+      <img src="img/logo.webp" alt="Black Phantom Tech">
       <span>BLACK PHANTOM<span class="logo-accent">TECH</span></span>
     </a>
     <nav class="footer-links">
@@ -302,7 +366,7 @@
 
 <!-- ============ MODAL WIZARD ============ -->
 <div class="modal-overlay" id="modalOverlay">
-  <div class="modal glass" role="dialog" aria-modal="true">
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="modalTag" tabindex="-1">
     <button class="modal-close" id="modalClose" aria-label="Cerrar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
