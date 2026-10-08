@@ -115,7 +115,7 @@ function swapLogoToImage(v){
   img.id = v.id; img.className = v.className.replace("alpha-logo", "").trim();
   img.width = 640; img.height = 640;
   img.alt = v.id === "orbitLogo" ? "Logo animado de Black Phantom Tech" : "";
-  img.src = reduceMotion ? "img/logo-static.webp" : "img/logo-anim.webp";
+  img.src = "img/logo-anim.webp";
   v.replaceWith(img);
   if (v.id === "orbitLogo") orbitLogo = img;
 }
@@ -127,7 +127,7 @@ function keepLogosPlaying(){
   });
 }
 let orbitLogo = document.getElementById("orbitLogo");
-if (reduceMotion || IS_WEBKIT){
+if (IS_WEBKIT){
   document.querySelectorAll("video.alpha-logo").forEach(swapLogoToImage);
 } else {
   keepLogosPlaying();
@@ -222,7 +222,7 @@ window.addEventListener("resize", () => { resizeCanvas(); initParticles(); if (r
 // INTRO SCROLL-EXPANSION
 // La foto del PC se ve primero; al deslizar, la web crece desde la
 // pantalla del watercooling hasta ocupar todo el viewport.
-// (Se activa solo si no hay prefers-reduced-motion: clase html.sx-on)
+// (Se activa siempre: clase html.sx-on; el avance depende solo del scroll de la persona)
 // ============================================================
 (function initScrollExpansion(){
   if (!root.classList.contains("sx-on")) return;
