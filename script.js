@@ -707,3 +707,346 @@ function sendToWhatsapp(){
   window.open(url, "_blank", "noopener");
   closeModal();
 }
+
+
+// ============================================================
+// BLACKPHANTOM APPS — tablet interactiva + modal de descarga
+// Para sumar otra app: agregá un objeto más a BP_APPS (con su ícono en /img).
+// El link de descarga sale solo de la última release pública del repo en GitHub.
+// ============================================================
+const BP_APPS = [
+  {
+    id: "dmi",
+    name: "Dónde Mierda Iba",
+    icon: "img/dmi-icon.webp",
+    iconSmall: "img/dmi-icon-sm.webp",
+    accent: "#FF7F32", accentRgb: "255,127,50", onAccent: "#1b0a02",
+    tagline: "Tu registro de series, pelis y videos",
+    desc: "Anotá en qué temporada, capítulo o minuto te quedaste y seguí desde ahí, sin vueltas. Te avisa cuando sale un capítulo nuevo, tiene widget en la pantalla de inicio y backup de tus listas. Sin cuentas ni anuncios: todo queda en tu celular.",
+    chips: ["Android 5.0+", "Gratis", "Sin anuncios", "Sin cuentas"],
+    repo: "BlackPhantom15/Donde-mierda-iba",
+    apkName: "DondeMierdaIba.apk",   // nombre fijo del APK en cada release
+    version: "v2.1", sizeBytes: 0, url: ""
+  }
+];
+const BP_TOTAL_SLOTS = 6; // casilleros del "launcher" (los vacíos se ven como "próximamente")
+
+function bpApkUrl(app){
+  return app.url || `https://github.com/${app.repo}/releases/latest/download/${app.apkName}`;
+}
+function bpRepoUrl(app){
+  return `https://github.com/${app.repo}`;
+}
+function bpFormatSize(bytes){
+  return bytes > 0 ? (bytes / 1048576).toFixed(1).replace(".", ",") + " MB" : "";
+}
+function bpMetaText(app){
+  return [app.version, bpFormatSize(app.sizeBytes)].filter(Boolean).join(" · ");
+}
+
+// Lee la última release pública para mostrar versión y peso reales (si falla, queda lo de arriba).
+async function bpRefreshAppInfo(app){
+  try {
+    let data = null;
+    try {
+      const cached = JSON.parse(sessionStorage.getItem("bp-app-" + app.id) || "null");
+      if (cached && Date.now() - cached.t < 30 * 60 * 1000) data = cached.d;
+    } catch (_) {}
+    if (!data){
+      const res = await fetch(`https://api.github.com/repos/${app.repo}/releases/latest`, {
+        headers: { Accept: "application/vnd.github+json" }
+      });
+      if (!res.ok) return false;
+      const j = await res.json();
+      const assets = j.assets || [];
+      const apk = assets.find(a => a.name === app.apkName) || assets.find(a => /\.apk$/i.test(a.name));
+      data = { tag: j.tag_name || "", size: apk ? apk.size : 0, url: apk ? apk.browser_download_url : "" };
+      try { sessionStorage.setItem("bp-app-" + app.id, JSON.stringify({ t: Date.now(), d: data })); } catch (_) {}
+    }
+    if (data.tag) app.version = data.tag;
+    if (data.size) app.sizeBytes = data.size;
+    if (data.url) app.url = data.url;
+    return true;
+  } catch (_) { return false; }
+}
+
+(function initBlackPhantomApps(){
+  const stage = document.getElementById("tabletStage");
+  if (!stage) return;
+
+  const tablet   = document.getElementById("tablet");
+  const screenEl = document.getElementById("tabScreen");
+  const canvas   = document.getElementById("tabCanvas");
+  const grid     = document.getElementById("tabGrid");
+  const home     = document.getElementById("tabHome");
+  const detail   = document.getElementById("tabApp");
+  const finger   = document.getElementById("tabFinger");
+  const clock    = document.getElementById("tabClock");
+  const twTime   = document.getElementById("twTime");
+  const twDate   = document.getElementById("twDate");
+  const twSweep  = document.getElementById("twSweep");
+
+  // ---------- escala de la pantalla ----------
+  const portraitMQ = window.matchMedia("(max-width: 700px)");
+  const DIMS = { land: [960, 640], port: [480, 700] };
+  function fit(){
+    const portrait = portraitMQ.matches;
+    stage.classList.toggle("is-portrait", portrait);
+    const [cw, ch] = portrait ? DIMS.port : DIMS.land;
+    stage.style.setProperty("--cw", cw + "px");
+    stage.style.setProperty("--ch", ch + "px");
+    const w = screenEl.clientWidth;
+    if (w) stage.style.setProperty("--k", (w / cw).toFixed(4));
+  }
+  fit();
+  if ("ResizeObserver" in window) new ResizeObserver(fit).observe(screenEl);
+  window.addEventListener("resize", fit);
+  window.addEventListener("load", fit);
+
+  // ---------- reloj en vivo ----------
+  function tick(){
+    const d = new Date();
+    const hm = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+    clock.textContent = hm;
+    twTime.textContent = hm;
+    const ds = d.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+    twDate.textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+  }
+  tick();
+  setInterval(tick, 15000);
+  twSweep.style.setProperty("--sec", "-" + (new Date().getSeconds() + new Date().getMilliseconds() / 1000).toFixed(2) + "s");
+
+  // ---------- íconos del "launcher" ----------
+  const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+  function renderGrid(){
+    grid.innerHTML = "";
+    BP_APPS.forEach((app, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "tab-icon"; b.dataset.app = app.id;
+      b.style.setProperty("--i", i);
+      b.setAttribute("aria-label", `Abrir ${app.name}`);
+      b.innerHTML = `<span class="ti-img"><img src="${app.icon}" alt="" width="118" height="118" decoding="async"></span><span class="ti-label"></span>`;
+      b.querySelector(".ti-label").textContent = app.name;
+      b.addEventListener("click", () => openApp(app, b));
+      grid.appendChild(b);
+    });
+    for (let i = BP_APPS.length; i < BP_TOTAL_SLOTS; i++){
+      const g = document.createElement("div");
+      g.className = "tab-icon ghost"; g.style.setProperty("--i", i); g.setAttribute("aria-hidden", "true");
+      g.innerHTML = `<span class="ti-img">${plusSvg}</span><span class="ti-label">${i === BP_APPS.length ? "Próximamente" : "&nbsp;"}</span>`;
+      grid.appendChild(g);
+    }
+  }
+  renderGrid();
+
+  // ---------- abrir / cerrar la app dentro de la tablet ----------
+  const taIcon = document.getElementById("taIcon");
+  const taName = document.getElementById("taName");
+  const taTagline = document.getElementById("taTagline");
+  const taChips = document.getElementById("taChips");
+  const taDesc = document.getElementById("taDesc");
+  const taMeta = document.getElementById("taMeta");
+  const taBack = document.getElementById("taBack");
+  const taDownload = document.getElementById("taDownload");
+  let currentApp = null, lastIcon = null, interacted = false;
+
+  function paintDetail(app){
+    detail.style.setProperty("--app-accent", app.accent);
+    detail.style.setProperty("--app-rgb", app.accentRgb);
+    detail.style.setProperty("--app-on", app.onAccent);
+    taIcon.src = app.icon; taIcon.alt = "Ícono de " + app.name;
+    taName.textContent = app.name;
+    taTagline.textContent = app.tagline;
+    taDesc.textContent = app.desc;
+    taChips.innerHTML = "";
+    app.chips.forEach(t => { const li = document.createElement("li"); li.textContent = t; taChips.appendChild(li); });
+    taMeta.textContent = bpMetaText(app);
+    document.getElementById("taRepo").href = bpRepoUrl(app);
+  }
+  function iconOrigin(el){
+    const c = canvas.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const k = c.width / canvas.offsetWidth || 1;
+    return { x: (r.left + r.width / 2 - c.left) / k, y: (r.top + r.height / 2 - c.top) / k };
+  }
+  function openApp(app, trigger){
+    interacted = true;
+    currentApp = app; lastIcon = trigger;
+    paintDetail(app);
+    const o = iconOrigin(trigger);
+    canvas.style.setProperty("--ox", o.x.toFixed(1) + "px");
+    canvas.style.setProperty("--oy", o.y.toFixed(1) + "px");
+    trigger.classList.add("pressed");
+    setTimeout(() => trigger.classList.remove("pressed"), 450);
+    tablet.classList.add("app-open");
+    detail.removeAttribute("inert"); detail.setAttribute("aria-hidden", "false");
+    home.setAttribute("inert", ""); home.setAttribute("aria-hidden", "true");
+    setTimeout(() => taDownload.focus({ preventScroll: true }), 620);
+  }
+  function closeApp(){
+    if (!tablet.classList.contains("app-open")) return;
+    tablet.classList.remove("app-open");
+    detail.setAttribute("inert", ""); detail.setAttribute("aria-hidden", "true");
+    home.removeAttribute("inert"); home.removeAttribute("aria-hidden");
+    if (lastIcon) setTimeout(() => lastIcon.focus({ preventScroll: true }), 420);
+  }
+  taBack.addEventListener("click", closeApp);
+  taDownload.addEventListener("click", () => { if (currentApp) openDownload(currentApp, taDownload); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && tablet.classList.contains("app-open") && !dlOverlay.classList.contains("active")) closeApp();
+  });
+
+  // ---------- encendido al entrar en pantalla + dedo guía ----------
+  let inView = false, hintPlays = 0, hintTimer = null;
+  function playHint(){
+    hintTimer = null;
+    if (interacted || reduceMotion || !inView || tablet.classList.contains("app-open")) { scheduleHint(); return; }
+    const btn = grid.querySelector(".tab-icon:not(.ghost)");
+    if (!btn || !finger.animate) return;
+    const { x, y } = iconOrigin(btn);
+    finger.animate([
+      { transform: `translate(${x + 190}px, ${y + 230}px) scale(1.25)`, opacity: 0 },
+      { transform: `translate(${x + 12}px, ${y + 16}px) scale(1.2)`, opacity: 1, offset: .55 },
+      { transform: `translate(${x}px, ${y}px) scale(.78)`, opacity: 1, offset: .68 },
+      { transform: `translate(${x}px, ${y}px) scale(1)`, opacity: .9, offset: .8 },
+      { transform: `translate(${x}px, ${y}px) scale(1.9)`, opacity: 0 }
+    ], { duration: 2100, easing: "cubic-bezier(.4,0,.2,1)" });
+    setTimeout(() => { btn.classList.add("pressed"); setTimeout(() => btn.classList.remove("pressed"), 550); }, 1400);
+    hintPlays++;
+    scheduleHint();
+  }
+  function scheduleHint(){
+    if (interacted || reduceMotion || hintPlays >= 4 || hintTimer) return;
+    hintTimer = setTimeout(playHint, hintPlays === 0 ? 3600 : 7500);
+  }
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        inView = en.isIntersecting;
+        if (inView && !tablet.classList.contains("on")){ tablet.classList.add("on"); scheduleHint(); }
+      });
+    }, { threshold: 0.3 }).observe(stage);
+  } else {
+    tablet.classList.add("on");
+  }
+
+  // ---------- inclinación 3D con el mouse ----------
+  if (!reduceMotion && window.matchMedia("(hover:hover) and (pointer:fine)").matches){
+    stage.addEventListener("pointermove", (e) => {
+      const r = stage.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - .5;
+      const py = (e.clientY - r.top) / r.height - .5;
+      stage.style.setProperty("--ry", (px * 9).toFixed(2) + "deg");
+      stage.style.setProperty("--rx", (-py * 7).toFixed(2) + "deg");
+    });
+    stage.addEventListener("pointerleave", () => {
+      stage.style.setProperty("--ry", "0deg");
+      stage.style.setProperty("--rx", "0deg");
+    });
+  }
+
+  // ---------- botón de descarga directo (debajo de la tablet) ----------
+  document.getElementById("appsDirectBtn").addEventListener("click", (e) => openDownload(BP_APPS[0], e.currentTarget));
+
+  // ---------- versión y peso reales desde GitHub ----------
+  BP_APPS.forEach(app => bpRefreshAppInfo(app).then(ok => {
+    if (!ok) return;
+    if (currentApp === app) taMeta.textContent = bpMetaText(app);
+    if (dlOverlay.classList.contains("active") && dlApp === app) dlMeta.textContent = bpDlMeta(app);
+  }));
+
+  // ============================================================
+  // MODAL DE DESCARGA
+  // ============================================================
+  var dlOverlay = document.getElementById("dlOverlay");
+  var dlModal = document.getElementById("dlModal");
+  var dlMeta = document.getElementById("dlMeta");
+  var dlApp = null;
+  const dlViewInfo = document.getElementById("dlViewInfo");
+  const dlViewDone = document.getElementById("dlViewDone");
+  const dlNotice = document.getElementById("dlNotice");
+  const dlGo = document.getElementById("dlGo");
+  const dlRetry = document.getElementById("dlRetry");
+  let dlLastFocus = null;
+
+  const ua = navigator.userAgent || "";
+  const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/i.test(ua);
+
+  function bpDlMeta(app){
+    const m = bpMetaText(app);
+    return (m ? m + " · " : "") + "Archivo .apk";
+  }
+  function setNotice(kind, html){
+    if (!kind){ dlNotice.hidden = true; return; }
+    dlNotice.hidden = false;
+    dlNotice.className = "dl-notice" + (kind === "ok" ? " ok" : "");
+    dlNotice.innerHTML = html;
+  }
+
+  function openDownload(app, from){
+    dlApp = app; dlLastFocus = from || null;
+    document.getElementById("dlIcon").src = app.iconSmall || app.icon;
+    document.getElementById("dlTitle").textContent = app.name;
+    dlMeta.textContent = bpDlMeta(app);
+    document.getElementById("dlRepo").href = bpRepoUrl(app);
+    dlViewInfo.hidden = false; dlViewDone.hidden = true;
+    dlGo.disabled = false;
+    if (isIOS){
+      setNotice("warn", "<b>Estás en un iPhone o iPad.</b> Esta app es solo para Android, así que no se puede instalar acá. Abrí esta página desde un celular Android.");
+      dlGo.disabled = true;
+    } else if (isAndroid){
+      setNotice("ok", "<b>Perfecto, estás en Android.</b> Podés instalarla directo desde este celular.");
+    } else {
+      setNotice("warn", "<b>Estás en una computadora.</b> Podés bajar el archivo y pasarlo a tu celular Android, o abrir esta página desde el celular para descargarla ahí.");
+    }
+    dlOverlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+    dlScroll.scrollTop = 0;
+    updateDlFade();
+    setTimeout(() => { updateDlFade(); dlModal.focus({ preventScroll: true }); }, 60);
+  }
+  // difumina el borde de abajo solo si todavía queda contenido por scrollear
+  const dlScroll = dlOverlay.querySelector(".dl-scroll");
+  function updateDlFade(){
+    dlScroll.classList.toggle("fade", dlScroll.scrollHeight - dlScroll.scrollTop - dlScroll.clientHeight > 4);
+  }
+  dlScroll.addEventListener("scroll", updateDlFade, { passive: true });
+  window.addEventListener("resize", updateDlFade);
+  function closeDownload(){
+    if (!dlOverlay.classList.contains("active")) return;
+    dlOverlay.classList.remove("active");
+    document.body.style.overflow = "";
+    if (dlLastFocus && dlLastFocus.focus) dlLastFocus.focus({ preventScroll: true });
+  }
+  function startDownload(){
+    if (!dlApp) return;
+    const url = bpApkUrl(dlApp);
+    const a = document.createElement("a");
+    a.href = url; a.rel = "noopener"; a.download = dlApp.apkName; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    dlRetry.href = url;
+    dlViewInfo.hidden = true; dlViewDone.hidden = false;
+    // reinicia la animación del tilde
+    const svg = dlViewDone.querySelector(".dl-check");
+    svg.innerHTML = svg.innerHTML;
+    dlModal.focus({ preventScroll: true });
+  }
+
+  dlGo.addEventListener("click", startDownload);
+  document.getElementById("dlCancel").addEventListener("click", closeDownload);
+  document.getElementById("dlClose").addEventListener("click", closeDownload);
+  document.getElementById("dlDone").addEventListener("click", closeDownload);
+  dlOverlay.addEventListener("click", (e) => { if (e.target === dlOverlay) closeDownload(); });
+  document.addEventListener("keydown", (e) => {
+    if (!dlOverlay.classList.contains("active")) return;
+    if (e.key === "Escape"){ closeDownload(); return; }
+    if (e.key === "Tab"){
+      const f = [...dlModal.querySelectorAll("button:not([disabled]), a[href]")].filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === dlModal)){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+})();

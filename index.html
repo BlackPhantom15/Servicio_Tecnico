@@ -38,7 +38,8 @@
       <a href="#inicio"><span class="nav-idx">00</span>Inicio</a>
       <a href="#servicios"><span class="nav-idx">01</span>Servicios</a>
       <a href="#proceso"><span class="nav-idx">02</span>Cómo trabajo</a>
-      <a href="#contacto"><span class="nav-idx">03</span>Contacto</a>
+      <a href="#apps"><span class="nav-idx">03</span>BlackPhantom Apps</a>
+      <a href="#contacto"><span class="nav-idx">04</span>Contacto</a>
       <a href="#contacto" class="nav-links-cta js-wa">Escribime por WhatsApp</a>
     </nav>
     <div class="nav-right">
@@ -325,11 +326,113 @@
   </div>
 </section>
 
+<!-- ============ BLACKPHANTOM APPS ============ -->
+<section id="apps" class="apps" aria-labelledby="appsTitle">
+  <div class="section-head reveal">
+    <span class="tag">04 · BlackPhantom Apps</span>
+    <h2 id="appsTitle">Mis apps, listas para probar</h2>
+    <p class="section-sub">Apps Android propias, gratis y sin anuncios. Tocá una en la tablet para ver de qué se trata y descargarla.</p>
+  </div>
+
+  <div class="tablet-stage" id="tabletStage">
+    <div class="tab-aura" aria-hidden="true"></div>
+    <span class="tab-chip tc-1" aria-hidden="true"><i></i>ANDROID</span>
+    <span class="tab-chip tc-2" aria-hidden="true"><i></i>GRATIS</span>
+    <span class="tab-chip tc-3" aria-hidden="true"><i></i>SIN ANUNCIOS</span>
+    <span class="tab-chip tc-4" aria-hidden="true"><i></i>APK</span>
+
+    <div class="tablet-float">
+      <div class="tablet" id="tablet">
+        <div class="tablet-frame">
+          <span class="tablet-cam" aria-hidden="true"></span>
+          <div class="tablet-screen" id="tabScreen">
+            <div class="tab-canvas" id="tabCanvas">
+
+              <div class="tab-wall" aria-hidden="true">
+                <i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+                <div class="tab-gridlines"></div>
+              </div>
+
+              <div class="tab-status" aria-hidden="true">
+                <span class="ts-clock" id="tabClock">9:41</span>
+                <span class="ts-brand">BlackPhantom Apps</span>
+                <span class="ts-icons">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.2" r=".9" fill="currentColor"/></svg>
+                  <svg viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6.5" width="21" height="11" rx="3"/><path d="M25.5 10.5v3" stroke-linecap="round"/><rect x="4.5" y="9" width="13" height="6" rx="1.4" fill="currentColor" stroke="none"/></svg>
+                </span>
+              </div>
+
+              <div class="tab-home" id="tabHome">
+                <div class="tab-widget" aria-hidden="true">
+                  <span class="tw-brand">BLACKPHANTOM<b>APPS</b></span>
+                  <div class="tw-clock">
+                    <svg viewBox="0 0 200 200" class="tw-ring">
+                      <circle cx="100" cy="100" r="88" class="tw-track"/>
+                      <circle cx="100" cy="100" r="88" class="tw-sweep" id="twSweep" pathLength="100"/>
+                    </svg>
+                    <span class="tw-time" id="twTime">09:41</span>
+                  </div>
+                  <span class="tw-date" id="twDate">&nbsp;</span>
+                </div>
+                <div class="tab-grid" id="tabGrid"></div>
+              </div>
+
+              <div class="tab-app" id="tabApp" aria-hidden="true" inert>
+                <button type="button" class="ta-back" id="taBack">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+                  <span>Inicio</span>
+                </button>
+                <div class="ta-icon-wrap">
+                  <i class="ta-halo" aria-hidden="true"></i>
+                  <img id="taIcon" class="ta-icon" src="img/dmi-icon.webp" alt="" width="256" height="256">
+                </div>
+                <div class="ta-body">
+                  <span class="ta-eyebrow"><i></i>APP ANDROID · GRATIS</span>
+                  <h3 id="taName">App</h3>
+                  <p class="ta-tagline" id="taTagline"></p>
+                  <ul class="ta-chips" id="taChips"></ul>
+                  <p class="ta-desc" id="taDesc"></p>
+                  <div class="ta-actions">
+                    <button type="button" class="ta-btn" id="taDownload">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+                    <span class="ta-btn-main">Descargar APK</span>
+                    <small id="taMeta"></small>
+                  </button>
+                    <a class="ta-gh" id="taRepo" href="https://github.com/BlackPhantom15/Donde-mierda-iba" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                      <span>Ver en GitHub</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-gesture" aria-hidden="true"></div>
+              <span class="tab-finger" id="tabFinger" aria-hidden="true"></span>
+              <div class="tab-boot" aria-hidden="true"><img src="img/logo.webp" alt="" width="140" height="140"></div>
+            </div>
+            <span class="tab-glare" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-floor" aria-hidden="true"></div>
+  </div>
+
+  <div class="apps-foot reveal">
+    <p class="apps-note"><span>Solo Android</span><i></i><span>Gratis</span><i></i><span>Sin anuncios ni cuentas</span></p>
+    <button type="button" class="btn btn-primary" id="appsDirectBtn">
+      <span>Descargar Dónde Mierda Iba</span>
+      <span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></span>
+    </button>
+  </div>
+  <noscript><p class="apps-note" style="text-align:center">Para ver las apps activá JavaScript, o descargá Dónde Mierda Iba desde <a href="https://github.com/BlackPhantom15/Donde-mierda-iba/releases/latest" style="color:var(--green)">GitHub</a>.</p></noscript>
+</section>
+
 <!-- ============ CONTACTO ============ -->
 <section id="contacto" class="contact">
   <div class="contact-inner glass reveal">
     <div class="contact-glow" aria-hidden="true"></div>
-    <span class="tag">04 · Contacto</span>
+    <span class="tag">05 · Contacto</span>
     <h2>¿Preferís escribir directo?</h2>
     <p>También podés mandarme un mensaje sin pasar por el formulario y lo vemos por WhatsApp.</p>
     <a class="btn btn-primary btn-lg" id="directWhatsapp" href="#" target="_blank" rel="noopener">
@@ -353,6 +456,7 @@
       <a href="#inicio">Inicio</a>
       <a href="#servicios">Servicios</a>
       <a href="#proceso">Cómo trabajo</a>
+      <a href="#apps">BlackPhantom Apps</a>
       <a href="#contacto">Contacto</a>
     </nav>
     <p class="footer-copy">© <span id="year"></span> Black Phantom Tech · Servicio Técnico</p>
@@ -381,6 +485,66 @@
     <div class="modal-nav">
       <button class="btn btn-glass" id="btnBack" type="button">Atrás</button>
       <button class="btn btn-primary" id="btnNext" type="button"><span id="btnNextLabel">Siguiente</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL DESCARGA DE APPS ============ -->
+<div class="modal-overlay dl-overlay" id="dlOverlay">
+  <div class="modal glass dl-modal" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlTitle" tabindex="-1">
+    <button class="modal-close" id="dlClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+
+    <div class="dl-view" id="dlViewInfo">
+      <div class="dl-head">
+        <img id="dlIcon" class="dl-icon" src="img/dmi-icon-sm.webp" alt="" width="64" height="64">
+        <div>
+          <span class="modal-tag">Descarga · Android</span>
+          <h3 id="dlTitle">App</h3>
+          <p class="dl-meta" id="dlMeta"></p>
+        </div>
+      </div>
+
+      <div class="dl-scroll">
+
+      <p class="dl-lead">Vas a descargar el instalador (<b>.apk</b>) directo desde el repositorio oficial en GitHub. Antes de instalar, tené en cuenta:</p>
+
+      <ol class="dl-steps">
+        <li><span>1</span><div><b>Solo para Android.</b> Necesitás Android 5.0 o superior. No se instala en iPhone.</div></li>
+        <li><span>2</span><div><b>Abrí el archivo al terminar.</b> Lo encontrás en las notificaciones o en la carpeta Descargas del celular.</div></li>
+        <li><span>3</span><div><b>Permiso de instalación.</b> Android puede pedirte habilitar “Instalar apps desconocidas” para tu navegador. Es normal: la app no está en Play Store. Se da una sola vez.</div></li>
+        <li><span>4</span><div><b>Aviso de Play Protect.</b> Si aparece, tocá “Instalar de todas formas”. El archivo viene directo del repositorio oficial.</div></li>
+        <li><span>5</span><div><b>Después se actualiza sola.</b> Desde el menú de la app, en “Buscar actualizaciones”, siempre preguntándote antes.</div></li>
+      </ol>
+
+      <div class="dl-notice" id="dlNotice" hidden></div>
+      </div>
+
+      <div class="dl-actions">
+        <a class="btn btn-glass dl-gh" id="dlRepo" href="https://github.com/BlackPhantom15/Donde-mierda-iba" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>Ver en GitHub</span>
+        </a>
+        <button class="btn btn-glass" id="dlCancel" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="dlGo" type="button">
+          <span>Descargar APK</span>
+          <span class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></span>
+        </button>
+      </div>
+      <p class="dl-fine">Gratis · Sin anuncios · Sin cuentas. App independiente de Black Phantom Tech.</p>
+    </div>
+
+    <div class="dl-view dl-done" id="dlViewDone" hidden>
+      <div class="dl-check" aria-hidden="true">
+        <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23" class="dl-check-c"/><path d="M15 27l8 8 14-16" class="dl-check-p"/></svg>
+      </div>
+      <h3>¡La descarga está en camino!</h3>
+      <p class="dl-lead">Cuando termine, abrí el archivo desde las notificaciones o la carpeta Descargas y seguí los pasos de Android. Si te pide permiso para instalar apps desconocidas, habilitalo y volvé a tocar el archivo.</p>
+      <p class="dl-fine">¿No empezó? <a id="dlRetry" href="#" target="_blank" rel="noopener">Tocá acá para descargarla de nuevo</a>.</p>
+      <div class="dl-actions dl-actions-one">
+        <button class="btn btn-primary" id="dlDone" type="button"><span>Listo</span></button>
+      </div>
     </div>
   </div>
 </div>
