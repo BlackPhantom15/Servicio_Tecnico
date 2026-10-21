@@ -1350,3 +1350,16 @@ img{max-width:100%; display:block;}
 .dl-gh svg{width:19px; height:19px; flex:none;}
 .dl-gh span:first-child{padding:0;}
 @media(max-width:520px){ .dl-gh{margin-right:0;} }
+
+/* vista "descarga en camino": botón simétrico y sin recortes de sombra */
+.dl-done{padding:6px 4px 30px; overflow-x:hidden;}
+.dl-actions-one{margin-top:14px; width:100%;}
+.dl-actions-one .btn{padding:15px 46px; min-width:160px; box-shadow:0 6px 14px rgba(56,226,124,.2);}
+.dl-actions-one .btn span:first-child{padding:0;}
+@media(max-width:520px){
+  .dl-done{padding:2px 2px 24px;}
+  .dl-check{width:68px; height:68px;}
+  .dl-done h3{font-size:21px;}
+  .dl-actions-one{flex-direction:column; align-items:stretch;}
+  .dl-actions-one .btn{width:100%;}
+}

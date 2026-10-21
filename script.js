@@ -1024,6 +1024,9 @@ async function bpRefreshAppInfo(app){
     const url = bpApkUrl(dlApp);
     const a = document.createElement("a");
     a.href = url; a.rel = "noopener"; a.download = dlApp.apkName; a.style.display = "none";
+    // Con el link verificado contra la API la descarga arranca sin salir de la web;
+    // si no se pudo verificar, se abre en otra pestaña para no sacar a la persona del sitio si algo falla.
+    a.target = dlApp.url ? "_self" : "_blank";
     document.body.appendChild(a); a.click(); a.remove();
     dlRetry.href = url;
     dlViewInfo.hidden = true; dlViewDone.hidden = false;
